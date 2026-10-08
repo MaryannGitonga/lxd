@@ -2650,9 +2650,8 @@ that the endpoint can be used to wait for an operation to complete rather than w
 (extension-cluster-internal-custom-volume-copy)=
 ## `cluster_internal_custom_volume_copy`
 
-This extension adds support for copying and moving custom storage volumes within a cluster with a single API call.
+This extension adds support for copying custom storage volumes within a cluster with a single API call.
 Calling `POST /1.0/storage-pools/<pool>/custom?target=<target>` will copy the custom volume specified in the `source` part of the request.
-Calling `POST /1.0/storage-pools/<pool>/custom/<volume>?target=<target>` will move the custom volume from the source, specified in the `source` part of the request, to the target.
 
 (extension-disk-io-bus)=
 ## `disk_io_bus`
@@ -3818,3 +3817,8 @@ New `lxc` commands:
 * `lxc bitmap list` and `lxc bitmap show` list the bitmaps of an instance snapshot.
 * `lxc nbd` exports an instance snapshot over NBD, with `--previous-snapshot-uuid` to limit the bitmaps.
 * `lxc storage volume nbd --writable` serves a storage volume read-write over NBD.
+
+(extension-storage-volume-member-move)=
+## `storage_volume_member_move`
+
+This extension adds support for moving a custom storage volume to another cluster member with a single API call. Calling `POST /1.0/storage-pools/<pool>/volumes/custom/<volume>?target=<member>` with `location` set to the name of another cluster member moves the volume from the member given in `target`, which is the member that currently hosts the volume, to the member given in `location`. The source volume is deleted by the server once the volume exists on the destination, so `can_delete` on the volume is not needed. Permissions granted on the volume are kept.
